@@ -32,8 +32,9 @@ main {
   align-items: center;
 }
 
-main #title_1 {
+main .text-wrapper {
   position: absolute;
+  max-width: 40%;
   opacity: 0;
   transform: translateX(60%);
   animation: title1-appear var(--title1-appear-time) forwards var(--stage3-delay); /* Stage 3 */
