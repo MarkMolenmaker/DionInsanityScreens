@@ -9,20 +9,12 @@
 }
 
 html, body {
-  /* Starting Animations, Stage 1 */
-  --logo-appear-time: 1500ms;
-  --logo-background-appear-time: 1000ms;
-
-  /* Stage 2 Animations */
-  --contianer-slide-time: 1000ms;
-  --stage2-delay: 2000ms;
-
-  /* Stage 3 Animations */
-  --title1-appear-time: 1000ms;
-  --stage3-delay: calc(var(--stage2-delay) + 1000ms);
-
   height: 100%;
   background: radial-gradient(45% 90% at center,#242a40, #090d1f);
+  /* animation timings */
+  --cycle-duration: 25s;
+  --section-duration: 30s;
+  --title-pulse-duration: 5s;
 }
 
 main {
@@ -32,34 +24,115 @@ main {
   align-items: center;
 }
 
-main .text-wrapper {
+.container  {
+  height: 100%;
   position: absolute;
-  max-width: 40%;
-  opacity: 0;
-  transform: translateX(60%);
-  animation: title1-appear var(--title1-appear-time) forwards var(--stage3-delay); /* Stage 3 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.cycle {
+  opacity: 0;
+  animation: section-fade var(--section-duration) infinite alternate;
+}
+
+.title {
+  opacity: 1;
+  animation: section-fade-reverse var(--section-duration) infinite alternate;
+}
+
+@keyframes section-fade {
+  0% { opacity: 1; }
+  45% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes section-fade-reverse {
+  0% { opacity: 0; }
+  50% { opacity: 0; }
+  55% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+.title-wrapper {
+  animation: title-pulse var(--title-pulse-duration) infinite alternate;
+}
+
+@keyframes title-pulse {
+  0% { transform: scale(1); }
+  5% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+
+.title-wrapper h1 {
+  font-size: 100px;
+}
+
+/* Text Elements */
+main .text-wrapper {
+  opacity: 1;
+  transform: translateX(60%);
+  animation: text var(--cycle-duration) infinite alternate;
+}
+
+main .underline {
+  background-image: linear-gradient(to right, #f9f502, #c7a600);
+  width: 100%;
+  height: 5px;
+  animation: underline var(--cycle-duration) infinite alternate;
+}
+
+@keyframes underline {
+    0% { transform: scaleX(1); }
+    35% { transform: scaleX(1); }
+    45% { transform: scaleX(0); }
+    100% { transform: scaleX(0); }
+}
+
+@keyframes text {
+    0% { transform: translateX(60%); opacity: 1; }
+    40% { transform: translateX(60%); opacity: 1; }
+    50% { transform: translateX(60%); opacity: 0; }
+    100% { transform: translateX(60%); opacity: 0; }
+}
+
+/* Logo Elements */
 main .logo-wrapper {
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: wrapper-slide var(--contianer-slide-time) forwards var(--stage2-delay); /* Stage 2 */
+  transform: translateX(-60%);
+  animation: wrapper-move var(--cycle-duration) infinite alternate;
+}
+
+@keyframes wrapper-move {
+  0% { transform: translateX(-60%); }
+  45% { transform: translateX(-60%); }
+  55% { transform: translateX(0); }
+  100% { transform: translateX(0); }
 }
 
 main .logo {
   position: relative;
-  animation: logo-appear var(--logo-appear-time) forwards; /* Stage 1 */
+  -webkit-filter: drop-shadow(0px 10px 0 rgba(0, 0, 0, 0.5));
+  animation: logo-loop 7s infinite alternate ease-in-out;
+}
+
+@keyframes logo-loop {
+    0% { transform: rotate(-5deg); }
+    100% { transform: rotate(2deg) scale(1.1); }
 }
 
 main .logo-background {
   position: absolute;
   opacity: 0.1;
   transform: scale(1.8);
-  animation: logo-background-appear var(--logo-background-appear-time) forwards; /* Stage 1 */
 }
 
+/* Canvas + Background */
 main .canvas-wrapper {
   top: 0;
   left: 0;
@@ -70,52 +143,4 @@ main canvas {
   display: block;
   position: absolute;
   background: transparent;
-}
-
-/* Animation Keyframes */
-@keyframes logo-appear {
-  0% {
-    transform: scale(0) rotate(-10deg);
-    opacity: 0;
-  }
-
-  80% {
-    transform: scale(1.1) rotate(5deg);
-  }
-
-  100% {
-    transform: scale(1) rotate(0);
-    opacity: 1;
-  }
-}
-
-@keyframes logo-background-appear {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 0.1;
-    transform: scale(1.8);
-  }
-}
-
-@keyframes wrapper-slide {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-60%);
-  }
-}
-
-@keyframes title1-appear {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
 }
